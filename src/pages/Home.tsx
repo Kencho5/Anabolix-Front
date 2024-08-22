@@ -12,7 +12,7 @@ const Home = () => {
         src={avatar}
         width={128}
         height={128}
-        className="rounded-xl"
+        className="h-[128px] w-[128px] rounded-xl"
         alt=""
       />
       {loggedIn ? (
