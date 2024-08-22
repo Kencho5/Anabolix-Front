@@ -1,5 +1,6 @@
 import Posts from "../components/Posts";
 import { useAuth } from "../auth/AuthContext";
+import avatar from "/avatar.jpg";
 
 const Home = () => {
   const { loggedIn } = useAuth();
@@ -8,7 +9,7 @@ const Home = () => {
     <div className="mx-auto mt-6 flex max-w-3xl flex-col items-center gap-2 rounded-xl bg-stone-200 p-4">
       <h3 className="mb-2 text-2xl font-bold text-stone-900">Home</h3>
       <img
-        src="/avatar.jpg"
+        src={avatar}
         width={128}
         height={128}
         className="rounded-xl"
