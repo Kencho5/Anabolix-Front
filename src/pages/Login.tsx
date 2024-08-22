@@ -36,9 +36,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-stone-100">
-      <div className="w-full max-w-sm p-8 mt-10 bg-white rounded-lg shadow-md">
-        <h3 className="text-2xl font-bold mb-6 text-center">Login</h3>
+    <div className="flex min-h-screen flex-col items-center bg-stone-100">
+      <div className="mt-10 w-full max-w-sm rounded-lg bg-white p-8 shadow-md">
+        <h3 className="mb-6 text-center text-2xl font-bold">Login</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
@@ -54,7 +54,7 @@ const Login = () => {
               onInput={(e: Event) =>
                 setUsername((e.target as HTMLInputElement).value)
               }
-              className="mt-1 block w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:outline-none sm:text-sm"
               placeholder="Enter your username"
             />
           </div>
@@ -72,7 +72,7 @@ const Login = () => {
               onInput={(e: Event) =>
                 setPassword((e.target as HTMLInputElement).value)
               }
-              className="mt-1 block w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:outline-none sm:text-sm"
               placeholder="Enter your password"
             />
           </div>
@@ -85,7 +85,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className={`w-full py-2 px-4 text-white font-semibold rounded-md shadow-sm focus:outline-none ${
+            className={`w-full rounded-md px-4 py-2 font-semibold text-white shadow-sm focus:outline-none ${
               isLoading
                 ? "cursor-not-allowed bg-stone-500 motion-safe:animate-pulse"
                 : "bg-teal-600 hover:bg-teal-700"

@@ -46,7 +46,7 @@ const Posts = () => {
   return (
     <div className="w-full space-y-4">
       {posts.map((post) => (
-        <div key={post.id} className="border bg-white p-4 shadow-sm rounded-md">
+        <div key={post.id} className="rounded-md border bg-white p-4 shadow-sm">
           <h4 className="text-lg font-semibold">{post.product}</h4>
           <p className="text-stone-600">Price: ${post.price}</p>
           <p className="text-stone-500">{post.description}</p>
