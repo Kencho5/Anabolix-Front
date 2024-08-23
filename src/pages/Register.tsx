@@ -1,19 +1,16 @@
 import { useReducer } from "preact/hooks";
-import { useAuth } from "../auth/AuthContext";
 import { initialState, reducer } from "../utils/authReducer";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Login = () => {
+const Register = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const { login } = useAuth();
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
     dispatch({ type: "SET_LOADING", payload: true });
 
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,8 +22,6 @@ const Login = () => {
     });
 
     if (response.ok) {
-      const { token } = await response.json();
-      await login(token);
       dispatch({ type: "SET_STATUS", payload: "success" });
     } else {
       dispatch({ type: "SET_STATUS", payload: "error" });
@@ -38,7 +33,7 @@ const Login = () => {
     <div className="flex min-h-screen flex-col items-center bg-stone-100">
       <div className="mt-10 w-full max-w-sm transform rounded-lg bg-white p-8 shadow-lg">
         <h3 className="mb-6 text-center text-3xl font-bold text-gray-800">
-          Login
+          Register
         </h3>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -84,15 +79,15 @@ const Login = () => {
             />
           </div>
 
-          {state.status == "error" && (
+          {state.status === "error" && (
             <div className="mb-4 rounded-md bg-red-100 p-4 text-red-600">
-              <p>Incorrect login information.</p>
+              <p>Username taken.</p>
             </div>
           )}
 
           {state.status === "success" && (
             <div className="mb-4 rounded-md bg-green-100 p-4 text-green-600">
-              <p>Login successful!</p>
+              <p>Registration successful!</p>
             </div>
           )}
 
@@ -104,16 +99,16 @@ const Login = () => {
                 : "hover:scale-105 hover:bg-teal-700"
             }`}
           >
-            {state.isLoading ? "Submitting..." : "Login"}
+            {state.isLoading ? "Submitting..." : "Register"}
           </button>
 
           <div className="mt-4 text-center text-sm text-gray-600">
-            Don't have an account?{" "}
+            Have an account?{" "}
             <a
-              href="/register"
+              href="/login"
               className="font-semibold text-teal-600 transition duration-200 hover:text-teal-700"
             >
-              Register
+              Log in
             </a>
           </div>
         </form>
@@ -122,4 +117,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
