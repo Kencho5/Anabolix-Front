@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar = () => {
   const { loggedIn, logout } = useAuth();
@@ -9,47 +10,65 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-stone-800 p-4">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="text-2xl font-semibold text-white">
-          <NavLink to="/">Anabolix</NavLink>
+    <div className="mt-4 px-4 sm:px-6 lg:px-8">
+      <nav className="rounded-full bg-gradient-to-r from-stone-800 to-stone-900 shadow-lg">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <div className="flex">
+              <div className="flex flex-shrink-0 items-center">
+                <NavLink
+                  to="/"
+                  className="text-2xl font-bold tracking-tight text-white"
+                >
+                  Anabolix
+                </NavLink>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="hidden md:ml-6 md:flex md:space-x-4">
+                <NavLink
+                  to="/"
+                  end
+                  className={({ isActive }) =>
+                    `inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                      isActive
+                        ? "bg-yellow-500 text-stone-900"
+                        : "text-gray-300 hover:bg-stone-700 hover:text-white"
+                    }`
+                  }
+                >
+                  Home
+                </NavLink>
+                {loggedIn ? (
+                  <button
+                    onClick={handleLogout}
+                    className="inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-stone-700 hover:text-white"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      `inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive
+                          ? "bg-yellow-500 text-stone-900"
+                          : "text-gray-300 hover:bg-stone-700 hover:text-white"
+                      }`
+                    }
+                  >
+                    Login
+                  </NavLink>
+                )}
+              </div>
+              <div className="ml-4 flex items-center">
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </div>
         </div>
-        <ul className="flex space-x-4 font-semibold">
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `text-white transition-colors hover:text-stone-400 ${isActive ? "text-yellow-500" : ""}`
-              }
-              end
-            >
-              Home
-            </NavLink>
-          </li>
-          {loggedIn ? (
-            <li>
-              <button
-                onClick={handleLogout}
-                className="text-white transition-colors hover:text-stone-400"
-              >
-                Logout
-              </button>
-            </li>
-          ) : (
-            <li>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `text-white transition-colors hover:text-stone-400 ${isActive ? "text-yellow-500" : ""}`
-                }
-              >
-                Login
-              </NavLink>
-            </li>
-          )}
-        </ul>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 
