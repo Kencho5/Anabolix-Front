@@ -1,37 +1,42 @@
-import { useReducer } from "preact/hooks";
-import { useAuth } from "../auth/AuthContext";
+import { useReducer } from "react";
 import { initialState, reducer } from "../utils/authReducer";
+import { useAuth } from "../auth/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   const { login } = useAuth();
 
-  const handleSubmit = async (event: Event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch({ type: "SET_LOADING", payload: true });
 
-    const response = await fetch(`${API_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: state.username,
-        password: state.password,
-      }),
-    });
+    try {
+      const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: state.username,
+          password: state.password,
+        }),
+      });
 
-    if (response.ok) {
-      const { token } = await response.json();
-      await login(token);
-      dispatch({ type: "SET_STATUS", payload: "success" });
-    } else {
+      if (response.ok) {
+        const { token } = await response.json();
+        await login(token);
+
+        dispatch({ type: "SET_STATUS", payload: "success" });
+      } else {
+        dispatch({ type: "SET_STATUS", payload: "error" });
+      }
+    } catch (error) {
       dispatch({ type: "SET_STATUS", payload: "error" });
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
-    dispatch({ type: "SET_LOADING", payload: false });
   };
 
   return (
@@ -52,10 +57,10 @@ const Login = () => {
               id="username"
               type="text"
               value={state.username}
-              onInput={(e: Event) =>
+              onChange={(e) =>
                 dispatch({
                   type: "SET_USERNAME",
-                  payload: (e.target as HTMLInputElement).value,
+                  payload: e.target.value,
                 })
               }
               className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-200 ease-in-out focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 sm:text-sm"
@@ -73,10 +78,10 @@ const Login = () => {
               id="password"
               type="password"
               value={state.password}
-              onInput={(e: Event) =>
+              onChange={(e) =>
                 dispatch({
                   type: "SET_PASSWORD",
-                  payload: (e.target as HTMLInputElement).value,
+                  payload: e.target.value,
                 })
               }
               className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm transition duration-200 ease-in-out focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500 sm:text-sm"
@@ -84,7 +89,7 @@ const Login = () => {
             />
           </div>
 
-          {state.status == "error" && (
+          {state.status === "error" && (
             <div className="mb-4 rounded-md bg-red-100 p-4 text-red-600">
               <p>Incorrect login information.</p>
             </div>

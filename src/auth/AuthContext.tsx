@@ -1,52 +1,36 @@
-import { createContext } from "preact";
-import { useState, useContext } from "preact/hooks";
-import Cookies from "js-cookie";
-import { jwtVerify, JWTPayload } from "jose";
+import React, { createContext, useState, useContext, ReactNode } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
   loggedIn: boolean;
-  verify: () => Promise<JWTPayload | undefined>;
+  verify: () => Promise<boolean>;
   login: (token: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
-const secretKey = import.meta.env.VITE_SESSION_SECRET;
-const encodedKey = new TextEncoder().encode(secretKey);
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
-}: {
-  children: preact.ComponentChildren;
 }) => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(!!Cookies.get("jwt"));
+  const token = localStorage.getItem("token") || "";
+  const [loggedIn, setLoggedIn] = useState<boolean>(!!token);
 
   const verify = async () => {
-    const token = Cookies.get("jwt") || "";
-    try {
-      const { payload } = await jwtVerify(token, encodedKey);
-      setLoggedIn(true);
-      return payload;
-    } catch {
-      setLoggedIn(false);
-    }
+    if (!token) return false;
+    const decoded: any = jwtDecode(token);
+    const now = Date.now() / 1000;
+    return parseInt(decoded.exp, 10) > now;
   };
 
   const login = async (token: string) => {
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    Cookies.set("jwt", token, {
-      expires: expiresAt,
-      secure: window.location.protocol === "https:",
-      sameSite: "lax",
-      path: "/",
-    });
+    localStorage.setItem("token", token);
     setLoggedIn(true);
   };
 
   const logout = async () => {
     setLoggedIn(false);
-    Cookies.remove("jwt");
+    localStorage.removeItem("token");
   };
 
   return (

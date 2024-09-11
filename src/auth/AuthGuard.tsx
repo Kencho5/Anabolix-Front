@@ -1,25 +1,11 @@
-import { useEffect } from "preact/hooks";
-import { route } from "preact-router";
+import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-interface ProtectedRouteProps {
-  children: preact.ComponentChildren;
-}
+const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { loggedIn } = useAuth();
 
-const AuthGuard = ({ children }: ProtectedRouteProps) => {
-  const { loggedIn, verify } = useAuth();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      await verify();
-      if (!loggedIn) {
-        route("/login", true);
-      }
-    };
-    checkAuth();
-  }, [loggedIn, verify]);
-
-  return loggedIn ? <>{children}</> : null;
+  return loggedIn ? <>{children}</> : <Navigate to="/login" />;
 };
 
-export default AuthGuard;
+export default ProtectedRoute;

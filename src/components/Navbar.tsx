@@ -1,4 +1,4 @@
-import { Link } from "preact-router/match";
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 const Navbar = () => {
@@ -10,40 +10,41 @@ const Navbar = () => {
 
   return (
     <nav className="bg-stone-800 p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-2xl font-semibold">
-          <Link href="/" className="hover:text-stone-400 transition-colors">
-            Anabolix
-          </Link>
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="text-2xl font-semibold text-white">
+          <NavLink to="/">Anabolix</NavLink>
         </div>
         <ul className="flex space-x-4 font-semibold">
           <li>
-            <Link
-              href="/"
-              activeClassName="text-yellow-500"
-              className="text-white hover:text-stone-400 transition-colors"
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `text-white transition-colors hover:text-stone-400 ${isActive ? "text-yellow-500" : ""}`
+              }
+              end
             >
               Home
-            </Link>
+            </NavLink>
           </li>
           {loggedIn ? (
             <li>
               <button
                 onClick={handleLogout}
-                className="text-white hover:text-stone-400 transition-colors"
+                className="text-white transition-colors hover:text-stone-400"
               >
                 Logout
               </button>
             </li>
           ) : (
             <li>
-              <Link
-                href="/login"
-                activeClassName="text-yellow-500"
-                className="text-white hover:text-stone-400 transition-colors"
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `text-white transition-colors hover:text-stone-400 ${isActive ? "text-yellow-500" : ""}`
+                }
               >
                 Login
-              </Link>
+              </NavLink>
             </li>
           )}
         </ul>

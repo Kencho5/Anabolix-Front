@@ -1,5 +1,7 @@
-import Posts from "../components/Posts";
 import { useAuth } from "../auth/AuthContext";
+import { Suspense, lazy } from "react";
+
+const Posts = lazy(() => import("../components/Posts"));
 
 const Home = () => {
   const { loggedIn } = useAuth();
@@ -19,9 +21,27 @@ const Home = () => {
       ) : (
         <p className="mb-4 text-lg text-red-600">Unauthorized</p>
       )}
-      <Posts />
+
+      <Suspense fallback={<PostsSkeleton />}>
+        <Posts />
+      </Suspense>
     </div>
   );
 };
+
+const PostsSkeleton = () => (
+  <div className="w-full space-y-4">
+    {[...Array(2)].map((_, index) => (
+      <div
+        key={index}
+        className="h-[110px] animate-pulse rounded-md border bg-white p-4 shadow-sm"
+      >
+        <div className="mb-2 h-6 w-3/4 rounded bg-stone-200"></div>
+        <div className="mb-2 h-4 w-1/2 rounded bg-stone-200"></div>
+        <div className="h-4 w-3/4 rounded bg-stone-200"></div>
+      </div>
+    ))}
+  </div>
+);
 
 export default Home;

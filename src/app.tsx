@@ -1,13 +1,18 @@
+import AppRoutes from "./router/AppRoutes";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./auth/AuthContext";
-import AppRoutes from "./router/AppRoutes";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div id="app">
+    <div>
       <AuthProvider>
-        <Navbar />
-        <AppRoutes />
+        <QueryClientProvider client={queryClient}>
+          <Navbar />
+          <AppRoutes />
+        </QueryClientProvider>
       </AuthProvider>
     </div>
   );
