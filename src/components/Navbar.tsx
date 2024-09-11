@@ -10,25 +10,44 @@ const Navbar = () => {
   };
 
   return (
-    <div className="mt-4 px-4 sm:px-6 lg:px-8">
-      <nav className="rounded-full bg-gradient-to-r from-stone-800 to-stone-900 shadow-lg">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex">
-              <div className="flex flex-shrink-0 items-center">
-                <NavLink
-                  to="/"
-                  className="text-2xl font-bold tracking-tight text-white"
-                >
-                  Anabolix
-                </NavLink>
-              </div>
+    <nav className="bg-gradient-to-r from-stone-800 to-stone-900 shadow-lg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex">
+            <div className="flex flex-shrink-0 items-center">
+              <NavLink
+                to="/"
+                className="text-2xl font-bold tracking-tight text-white"
+              >
+                Anabolix
+              </NavLink>
             </div>
-            <div className="flex items-center">
-              <div className="hidden md:ml-6 md:flex md:space-x-4">
+          </div>
+          <div className="flex items-center">
+            <div className="ml-6 flex space-x-4">
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  `inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive
+                      ? "bg-yellow-500 text-stone-900"
+                      : "text-gray-300 hover:bg-stone-700 hover:text-white"
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+              {loggedIn ? (
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-stone-700 hover:text-white"
+                >
+                  Logout
+                </button>
+              ) : (
                 <NavLink
-                  to="/"
-                  end
+                  to="/login"
                   className={({ isActive }) =>
                     `inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors ${
                       isActive
@@ -37,38 +56,17 @@ const Navbar = () => {
                     }`
                   }
                 >
-                  Home
+                  Login
                 </NavLink>
-                {loggedIn ? (
-                  <button
-                    onClick={handleLogout}
-                    className="inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-stone-700 hover:text-white"
-                  >
-                    Logout
-                  </button>
-                ) : (
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      `inline-flex items-center rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-                        isActive
-                          ? "bg-yellow-500 text-stone-900"
-                          : "text-gray-300 hover:bg-stone-700 hover:text-white"
-                      }`
-                    }
-                  >
-                    Login
-                  </NavLink>
-                )}
-              </div>
-              <div className="ml-4 flex items-center">
-                <LanguageSwitcher />
-              </div>
+              )}
+            </div>
+            <div className="ml-4 flex items-center">
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 };
 
