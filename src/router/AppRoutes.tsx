@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import TopBarProgress from "react-topbar-progress-indicator";
 
 import Home from "../pages/Home";
-const Login = lazy(() => import("../pages/Login"));
+import Login from "../pages/Login";
 const Register = lazy(() => import("../pages/Register"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
