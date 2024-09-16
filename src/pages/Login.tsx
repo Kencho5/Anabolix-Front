@@ -2,12 +2,14 @@ import { useReducer } from "react";
 import { initialState, reducer } from "../utils/authReducer";
 import { useAuth } from "../auth/AuthContext";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { login } = useAuth();
+  const { t } = useTranslation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,7 +46,7 @@ const Login = () => {
     <div className="flex min-h-screen flex-col items-center bg-stone-100">
       <div className="mt-10 w-full max-w-sm transform rounded-lg bg-white p-8 shadow-lg">
         <h3 className="mb-6 text-center text-3xl font-bold text-gray-800">
-          Login
+          {t("LOGIN.login")}
         </h3>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

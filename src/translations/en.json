@@ -1,5 +1,8 @@
 {
   "HOME": {
     "home": "Home"
+  },
+  "LOGIN": {
+    "login": "Login"
   }
 }
