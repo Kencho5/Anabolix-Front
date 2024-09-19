@@ -1,29 +1,33 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { LuChevronsUpDown } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import OutsideClickHandler from "../utils/OutsideClick";
-
-const frameworks = [
-  { value: "next.js", label: "Next.js" },
-  { value: "sveltekit", label: "SvelteKit" },
-  { value: "nuxt.js", label: "Nuxt.js" },
-  { value: "remix", label: "Remix" },
-  { value: "astro", label: "Astro" },
-];
 
 export function Combobox() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [search, setSearch] = useState("");
 
-  const filteredFrameworks = frameworks.filter((framework) =>
-    framework.label.toLowerCase().includes(search.toLowerCase()),
+  const frameworks = [
+    { value: "next.js", label: "Next.js" },
+    { value: "sveltekit", label: "SvelteKit" },
+    { value: "nuxt.js", label: "Nuxt.js" },
+    { value: "remix", label: "Remix" },
+    { value: "astro", label: "Astro" },
+  ];
+
+  const filteredFrameworks = useMemo(
+    () =>
+      frameworks.filter((framework) =>
+        framework.label.toLowerCase().includes(search.toLowerCase()),
+      ),
+    [search],
   );
 
   return (
     <OutsideClickHandler onOutsideClick={() => setOpen(false)}>
-      <div className="relative w-[256px]">
+      <div className="relative mb-4 w-[256px]">
         <button
           className="flex w-full items-center justify-between rounded-lg border border-gray-300 bg-white px-3 py-2 transition-colors hover:bg-gray-100"
           onClick={() => setOpen(!open)}
@@ -39,6 +43,7 @@ export function Combobox() {
             <div className="flex items-center border-b border-stone-300">
               <FiSearch className="ml-3 h-5 w-5 text-stone-500" />
               <input
+                autoFocus
                 type="text"
                 placeholder="Search framework..."
                 value={search}
@@ -53,7 +58,7 @@ export function Combobox() {
                 filteredFrameworks.map((framework) => (
                   <button
                     key={framework.value}
-                    className={`mx-auto flex w-full items-center px-2 py-2 text-center transition-colors hover:rounded-md hover:bg-stone-100 ${value === framework.value ? "bg-stone-100" : ""}`}
+                    className={`mx-auto flex w-full items-center rounded-md px-2 py-2 text-center transition-colors hover:bg-stone-100 ${value === framework.value ? "bg-stone-100" : ""}`}
                     onClick={() => {
                       setValue(
                         value === framework.value ? "" : framework.value,
