@@ -1,7 +1,7 @@
 import { useAuth } from "../auth/AuthContext";
 import { Suspense, lazy } from "react";
 import { useTranslation } from "react-i18next";
-// import { Combobox } from "../components/Combobox";
+import { Combobox } from "../components/Combobox";
 
 const Posts = lazy(() => import("../components/Posts"));
 
@@ -14,6 +14,8 @@ const Home = () => {
       <h3 className="mb-4 text-2xl font-bold text-stone-900">
         {t("HOME.home")}
       </h3>
+      <Combobox />
+
       <img
         src="/avatar.jpg"
         width={128}
@@ -26,6 +28,7 @@ const Home = () => {
       ) : (
         <p className="mb-4 text-lg text-red-600">Unauthorized</p>
       )}
+
       <Suspense fallback={<PostsSkeleton />}>
         <Posts />
       </Suspense>
