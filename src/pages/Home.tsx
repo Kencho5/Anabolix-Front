@@ -1,6 +1,7 @@
 import { useAuth } from "../auth/AuthContext";
 import { Suspense, lazy } from "react";
 import { useTranslation } from "react-i18next";
+import { Dropdown } from "../components/Dropdown";
 
 const Posts = lazy(() => import("../components/Posts"));
 
@@ -13,6 +14,8 @@ const Home = () => {
       <h3 className="mb-2 text-2xl font-bold text-stone-900">
         {t("HOME.home")}
       </h3>
+      <Dropdown />
+
       <img
         src="/avatar.jpg"
         width={128}
