@@ -4,5 +4,22 @@
   },
   "LOGIN": {
     "login": "შესვლა"
+  },
+  "COMBOBOX": {
+    "select": "აირჩიე შენი ქვეყანა...",
+    "search": "მოძებნე შენი ქვეყანა..."
+  },
+
+  "COUNTRIES": {
+    "china": "ჩინეთი",
+    "india": "ინდოეთი",
+    "united_states": "შეერთებული შტატები",
+    "indonesia": "ინდონეზია",
+    "pakistan": "პაკისტანი",
+    "brazil": "ბრაზილია",
+    "nigeria": "ნიგერია",
+    "bangladesh": "ბანგლადეში",
+    "russia": "რუსეთი",
+    "mexico": "მექსიკა"
   }
 }

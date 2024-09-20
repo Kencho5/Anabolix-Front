@@ -3,26 +3,23 @@ import { LuChevronsUpDown } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import OutsideClickHandler from "../utils/OutsideClick";
+import { getCountries } from "../utils/countries";
+import { useTranslation } from "react-i18next";
 
 export function Combobox() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [search, setSearch] = useState("");
 
-  const frameworks = [
-    { value: "next.js", label: "Next.js" },
-    { value: "sveltekit", label: "SvelteKit" },
-    { value: "nuxt.js", label: "Nuxt.js" },
-    { value: "remix", label: "Remix" },
-    { value: "astro", label: "Astro" },
-  ];
+  const { t } = useTranslation();
+  const countries = useMemo(() => getCountries(t), [t]);
 
-  const filteredFrameworks = useMemo(
+  const filteredcountries = useMemo(
     () =>
-      frameworks.filter((framework) =>
-        framework.label.toLowerCase().includes(search.toLowerCase()),
+      countries.filter((country) =>
+        country.label.toLowerCase().includes(search.toLowerCase()),
       ),
-    [search],
+    [search, countries],
   );
 
   return (
@@ -34,8 +31,8 @@ export function Combobox() {
           aria-expanded={open}
         >
           {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
+            ? countries.find((country) => country.value === value)?.label
+            : t("COMBOBOX.select")}
           <LuChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
         </button>
         {open && (
@@ -45,34 +42,32 @@ export function Combobox() {
               <input
                 autoFocus
                 type="text"
-                placeholder="Search framework..."
+                placeholder={t("COMBOBOX.search")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full rounded-t-md px-3 py-2 pl-2 outline-none"
               />
             </div>
             <div className="max-h-60 overflow-y-auto p-2">
-              {filteredFrameworks.length === 0 ? (
-                <div className="p-3 text-center">No framework found.</div>
+              {filteredcountries.length === 0 ? (
+                <div className="p-3 text-center">No country found.</div>
               ) : (
-                filteredFrameworks.map((framework) => (
+                filteredcountries.map((country) => (
                   <button
-                    key={framework.value}
-                    className={`mx-auto flex w-full items-center rounded-md px-2 py-2 text-center transition-colors hover:bg-stone-100 ${value === framework.value ? "bg-stone-100" : ""}`}
+                    key={country.value}
+                    className={`mx-auto flex w-full items-center rounded-md px-2 py-2 text-center transition-colors hover:bg-stone-100 ${value === country.value ? "bg-stone-100" : ""}`}
                     onClick={() => {
-                      setValue(
-                        value === framework.value ? "" : framework.value,
-                      );
+                      setValue(value === country.value ? "" : country.value);
                       setOpen(false);
                     }}
                   >
-                    {value === framework.value && (
+                    {value === country.value && (
                       <FaCheck className="mr-2 h-4 w-4 opacity-100" />
                     )}
-                    {value !== framework.value && (
+                    {value !== country.value && (
                       <span className="mr-2 h-4 w-4 opacity-0" />
                     )}
-                    {framework.label}
+                    {country.label}
                   </button>
                 ))
               )}

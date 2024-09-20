@@ -4,5 +4,22 @@
   },
   "LOGIN": {
     "login": "Login"
+  },
+  "COMBOBOX": {
+    "select": "Select your country...",
+    "search": "Search your country"
+  },
+
+  "COUNTRIES": {
+    "china": "China",
+    "india": "India",
+    "united_states": "United States",
+    "indonesia": "Indonesia",
+    "pakistan": "Pakistan",
+    "brazil": "Brazil",
+    "nigeria": "Nigeria",
+    "bangladesh": "Bangladesh",
+    "russia": "Russia",
+    "mexico": "Mexico"
   }
 }
