@@ -5,11 +5,6 @@ import App from "./app";
 import "./index.css";
 import "./i18n";
 import TopBarProgress from "react-topbar-progress-indicator";
-import { PostHogProvider } from "posthog-js/react";
-
-const options = {
-  api_host: import.meta.env.VITE_POSTHOG_HOST,
-};
 
 TopBarProgress.config({
   barColors: {
@@ -23,12 +18,7 @@ TopBarProgress.config({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <PostHogProvider
-        apiKey={import.meta.env.VITE_POSTHOG_KEY}
-        options={options}
-      >
-        <App />
-      </PostHogProvider>
+      <App />
     </BrowserRouter>
   </StrictMode>,
 );

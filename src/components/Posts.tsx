@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export interface Post {
+interface Post {
   id: number | string;
   product: string;
   price: number;
@@ -18,7 +18,7 @@ const fetchPosts = async () => {
 };
 
 const Posts = () => {
-  const { data: posts } = useQuery("posts", fetchPosts, {
+  const { data: posts } = useQuery("Posts", fetchPosts, {
     suspense: true,
   });
 
