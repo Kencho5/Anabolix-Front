@@ -1,13 +1,13 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import en from "./translations/en.json";
-import ka from "./translations/ka.json";
+import ge from "./translations/ge.json";
 
 const savedLanguage = localStorage.getItem("language") || "en";
 
 i18n.use(initReactI18next).init({
   resources: {
-    ka: { translation: ka },
+    ge: { translation: ge },
     en: { translation: en },
   },
   lng: savedLanguage,

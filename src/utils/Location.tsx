@@ -4,6 +4,8 @@ import { useQuery } from "react-query";
 import { changeLanguage } from "i18next";
 import { allowedLanguages } from "./allowedLanguages";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface LocationState {
   language: string | null;
   setLanguage: (lang: string) => void;
@@ -12,15 +14,12 @@ interface LocationState {
 interface IpData {
   ip: string;
   city: string;
-  country_name: string;
-  country_code: string;
-  country_calling_code: string;
-  currency: string;
-  languages: string;
+  country: string;
+  language: string;
 }
 
 const fetchIpData = async (): Promise<IpData> => {
-  const response = await fetch("https://ipapi.co/json");
+  const response = await fetch(`${API_URL}/location`, { method: "POST" });
   if (!response.ok) throw new Error("IP data fetch failed");
   return response.json();
 };
@@ -41,11 +40,15 @@ export const LocationProvider: React.FC<{ children: ReactNode }> = ({
 
   useQuery("IpData", fetchIpData, {
     onSuccess: (data) => {
-      const lang = data.languages.split(",")[0].split("-")[0];
+      const lang = data.language;
       if (!allowedLanguages.includes(lang)) return;
       setLanguage(lang);
     },
+    onError: () => {
+      setLanguage("en");
+    },
     enabled: !localStorage.getItem("language"),
+    retry: false,
   });
 
   return <>{children}</>;

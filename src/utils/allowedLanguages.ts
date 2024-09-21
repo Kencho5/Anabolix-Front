@@ -1,1 +1,1 @@
-export const allowedLanguages = ["ka", "en"];
+export const allowedLanguages = ["ge", "en"];
